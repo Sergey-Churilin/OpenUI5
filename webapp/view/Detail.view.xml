@@ -1,0 +1,123 @@
+<mvc:View
+		controllerName="sap.ui.demo.masterdetail.controller.Detail"
+		xmlns="sap.m"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:semantic="sap.m.semantic">
+<Page>
+	<semantic:DetailPage
+			id="page"
+			navButtonPress="onNavBack"
+			showNavButton="{device>/system/phone}"
+			title="{i18n>detailTitle}"
+			busy="{detailView>/busy}"
+			busyIndicatorDelay="{detailView>/delay}">
+
+		<semantic:content>
+			<ObjectHeader
+					id="objectHeader"
+					title="{Name}"
+					number="{
+								path: 'UnitNumber',
+								formatter: '.formatter.currencyValue'
+					}"
+					numberUnit="{UnitOfMeasure}">
+			</ObjectHeader>
+			<IconTabBar
+					id="iconTabBar"
+					class="sapUiResponsiveContentPadding"
+					select="handleIconTabBarSelect">
+				<items>
+					<IconTabFilter
+							id="iconTabBarFilter1"
+							icon="sap-icon://add-coursebook"
+							count="{Status/Open}"
+							key="Open"
+							tooltip="{i18n>detailIconTabBarInfo}">
+					</IconTabFilter>
+					<IconTabFilter
+							id="iconTabBarFilter2"
+							icon="sap-icon://manager"
+							iconColor="Critical"
+							count="{Status/In Process}"
+							key="In Process"
+							tooltip="{i18n>detailIconTabBarAttachments}">
+					</IconTabFilter>
+					<IconTabFilter
+							id="iconTabBarFilter3"
+							icon="sap-icon://activity-items"
+							count="{Status/Shipped}"
+							key="Shipped"
+							tooltip="{i18n>detailIconTabBarAttachments}">
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+			<Table
+					id="lineItemsList"
+					width="auto"
+					items="{LineItems}"
+					updateFinished="onListUpdateFinished"
+					noDataText="{i18n>detailLineItemTableNoDataText}"
+					busyIndicatorDelay="{detailView>/lineItemTableDelay}"
+					class="sapUiResponsiveMargin">
+				<columns>
+					<Column>
+						<Text text="{i18n>detailLineItemTableIDColumn}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>detailLineItemTableOrdered}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>detailLineItemTablePrice}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>detailLineItemTableStatus}"/>
+					</Column>
+					<Column>
+						<!--
+							minScreenWidth="Tablet"
+							demandPopin="true"
+							hAlign="End"-->
+						<Text text="{i18n>detailLineItemTableUnitNumberColumn}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier
+									title="{Name}"
+									text="{LineItemID}"/>
+							<ObjectIdentifier
+									title="{Ordered}"/>
+							<ObjectIdentifier
+									title="{Price}"/>
+							<ObjectIdentifier
+									title="{Status}"/>
+							<ObjectNumber
+									number="{
+									path: 'UnitNumber',
+									formatter: '.formatter.currencyValue'
+								}"
+									unit="{UnitOfMeasure}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+
+		<!--<semantic:editAction>
+			<semantic:EditAction press="onEditButtonPress"/>
+		</semantic:editAction>-->
+
+	</semantic:DetailPage>
+	<footer>
+		<OverflowToolbar id="otbSubheader">
+			<Button id="editButton" text="Edit" type="Transparent"
+					press="onEdit" />
+			<Button id="saveButton" text="Save" type="Transparent"
+					press="onSave" visible="false" />
+			<Button id="cancelButton" text="Cancel" type="Transparent"
+					press="onCancel" visible="false" />
+		</OverflowToolbar>
+	</footer>
+</Page>
+</mvc:View>
